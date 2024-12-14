@@ -10,24 +10,23 @@ pd.set_option('display.width', 1000)
 print("Data Sampah :")
 print(df)
 
-# Input Tahun
+
 tahun_tertentu = int(input("Masukan Tahun yang dituju : "))  
 total_tahun = 0
 
-# Menghitung total produksi sampah di tahun tertentu
+
 for index, row in df.iterrows():
     if row['tahun'] == tahun_tertentu:
         total_tahun += row['jumlah_produksi_sampah']
 
 print(f"\nTotal produksi sampah di seluruh Kabupaten/Kota untuk tahun {tahun_tertentu}: {total_tahun} ton")
 
-# Dataframe untuk total sampah di tahun tertentu
+
 df_sampah_tahun_tertentu = pd.DataFrame({
     'Tahun': [tahun_tertentu], 
     'Total Produksi Sampah': [total_tahun]
 })
 
-# Menghitung jumlah produksi sampah per tahun
 data_sampah_tahunan = {}
 for index, row in df.iterrows():
     tahun = row['tahun']
@@ -38,7 +37,6 @@ for index, row in df.iterrows():
 
     data_sampah_tahunan[tahun] += jumlah
 
-# Dataframe untuk jumlah sampah per tahun
 df_tahunan = pd.DataFrame(
     list(data_sampah_tahunan.items()), 
     columns=['Tahun', 'Total Produksi Sampah']
@@ -47,7 +45,6 @@ df_tahunan = pd.DataFrame(
 print("\nJumlah Produksi Sampah Per Tahun:")
 print(df_tahunan)
 
-# Menghitung jumlah produksi sampah per Kota/Kabupaten per tahun
 data_sampah_kota_tahunan = {}
 for index, row in df.iterrows():
     tahun = row['tahun']
@@ -58,7 +55,6 @@ for index, row in df.iterrows():
         data_sampah_kota_tahunan[(kota, tahun)] = 0
     data_sampah_kota_tahunan[(kota, tahun)] += jumlah
 
-# Dataframe untuk jumlah sampah per Kota/Kabupaten per tahun
 df_kota_tahunan = pd.DataFrame(
     [(kota, tahun, total) for (kota, tahun), total in data_sampah_kota_tahunan.items()],
     columns=['nama_kabupaten_kota', 'tahun', 'jumlah_produksi_sampah']
@@ -67,7 +63,6 @@ df_kota_tahunan = pd.DataFrame(
 print("\nJumlah Produksi Sampah Per Kota/Kabupaten Per Tahun:")
 print(df_kota_tahunan)
 
-# Menyimpan ke file CSV dan Excel
 df_sampah_tahun_tertentu.to_csv("total_produksi_sampah_tahun_tertentu.csv", index=False)
 df_sampah_tahun_tertentu.to_excel("total_produksi_sampah_tahun_tertentu.xlsx", index=False)
 df_tahunan.to_csv("jumlah_per_tahun.csv", index=False)
